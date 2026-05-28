@@ -30,3 +30,6 @@ samples/replays/*
 samples/parsed/*
 # Local Codex app configuration
 .codex/
+# External dependencies
+external/*
+!external/subtr-actor/
