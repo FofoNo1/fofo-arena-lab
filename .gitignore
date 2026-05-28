@@ -1,0 +1,30 @@
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+
+# Node / Web
+node_modules/
+dist/
+build/
+.vite/
+
+# Python
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Environment / secrets
+.env
+.env.local
+*.key
+*.pem
+
+# Local replay data
+*.replay
+samples/replays/*
+samples/parsed/*
