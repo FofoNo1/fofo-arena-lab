@@ -15,6 +15,12 @@ import sys
 from typing import Any
 
 
+if hasattr(sys.stdout, "reconfigure"):
+    sys.stdout.reconfigure(encoding="utf-8")
+if hasattr(sys.stderr, "reconfigure"):
+    sys.stderr.reconfigure(encoding="utf-8")
+
+
 REPO_ROOT = Path(__file__).resolve().parents[2]
 DEFAULT_REPLAY_DIR = REPO_ROOT / "local_data" / "ballchasing" / "replays"
 DEFAULT_REPORT_PATH = (
@@ -180,19 +186,41 @@ def analyze_player_tracks(players: Any) -> dict[str, Any]:
     }
 
 
-def team_player_counts(metadata: dict[str, Any]) -> tuple[int, int]:
-    team_zero = metadata.get("team_zero")
-    team_one = metadata.get("team_one")
-    return (
-        list_len(team_zero.get("players") if isinstance(team_zero, dict) else None),
-        list_len(team_one.get("players") if isinstance(team_one, dict) else None),
-    )
+def team_players(meta: dict[str, Any], key: str) -> list[Any]:
+    players = meta.get(key)
+    if isinstance(players, list):
+        return players
+    return []
+
+
+def player_name(player: Any) -> str | None:
+    if not isinstance(player, dict):
+        return None
+    name = player.get("name")
+    if name in (None, ""):
+        return None
+    return str(name)
+
+
+def player_names(players: list[Any]) -> list[str]:
+    names: list[str] = []
+    for player in players:
+        name = player_name(player)
+        if name is not None:
+            names.append(name)
+    return names
+
+
+def format_names(names: list[str]) -> str:
+    if not names:
+        return "-"
+    return ", ".join(name.replace("|", "\\|").replace("\n", " ") for name in names)
 
 
 def analyze_output(replay_path: Path, output: dict[str, Any]) -> dict[str, Any]:
-    metadata = output.get("metadata", {})
-    if not isinstance(metadata, dict):
-        metadata = {}
+    meta = output.get("meta", {})
+    if not isinstance(meta, dict):
+        meta = {}
     frame_data = output.get("frame_data", {})
     if not isinstance(frame_data, dict):
         frame_data = {}
@@ -205,7 +233,8 @@ def analyze_output(replay_path: Path, output: dict[str, Any]) -> dict[str, Any]:
     ball_analysis = analyze_ball_frames(ball_frames)
     player_analysis = analyze_player_tracks(players)
     player_lengths = player_analysis["frame_lengths"]
-    team_zero_count, team_one_count = team_player_counts(metadata)
+    team_zero_players = team_players(meta, "team_zero")
+    team_one_players = team_players(meta, "team_one")
 
     event_counts = {key: list_len(output.get(key)) for key in EVENT_KEYS}
     optional_nulls = {
@@ -227,8 +256,10 @@ def analyze_output(replay_path: Path, output: dict[str, Any]) -> dict[str, Any]:
         "metadata_frames": expected,
         "ball_frames": ball_analysis["count"],
         "player_track_count": player_analysis["count"],
-        "team_zero_players": team_zero_count,
-        "team_one_players": team_one_count,
+        "team_zero_players": len(team_zero_players),
+        "team_one_players": len(team_one_players),
+        "team_zero_names": player_names(team_zero_players),
+        "team_one_names": player_names(team_one_players),
         "event_counts": event_counts,
         "optional_nulls": optional_nulls,
         "ball_variants": ball_analysis["variants"],
@@ -316,15 +347,15 @@ def build_summary(results: list[dict[str, Any]], replay_dir: Path) -> str:
         "",
         (
             "| Replay | Status | Metadata Frames | Ball Frames | Player Tracks | "
-            "Team 0 | Team 1 | Aligned | Events |"
+            "Team 0 | Team 1 | Team 0 Names | Team 1 Names | Aligned | Events |"
         ),
-        "| --- | --- | ---: | ---: | ---: | ---: | ---: | --- | --- |",
+        "| --- | --- | ---: | ---: | ---: | ---: | ---: | --- | --- | --- | --- |",
     ]
 
     for result in results:
         if result.get("status") != "success":
             lines.append(
-                f"| `{rel_path(result['path'])}` | failure: {result['error']} | - | - | - | - | - | - | - |"
+                f"| `{rel_path(result['path'])}` | failure: {result['error']} | - | - | - | - | - | - | - | - | - |"
             )
             continue
         events = ", ".join(
@@ -334,6 +365,8 @@ def build_summary(results: list[dict[str, Any]], replay_dir: Path) -> str:
             f"| `{rel_path(result['path'])}` | success | {result['metadata_frames']} | "
             f"{result['ball_frames']} | {result['player_track_count']} | "
             f"{result['team_zero_players']} | {result['team_one_players']} | "
+            f"{format_names(result['team_zero_names'])} | "
+            f"{format_names(result['team_one_names'])} | "
             f"{result['aligned']} | {events} |"
         )
 
