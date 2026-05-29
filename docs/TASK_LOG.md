@@ -70,3 +70,37 @@ Observed output included:
 - 34 boost pads
 - 1581 boost pad events
 - 45 stat module names
+
+## 2026-05-29
+
+### Parser-output variance exploration
+
+- Added repeatable parser-output probes under scripts/probes/ for bounded inspection only.
+- Documented subtr-actor output shapes in docs/SUBTR_ACTOR_OUTPUT_FIELD_REFERENCE.md.
+- Compared fixture variance in docs/SUBTR_ACTOR_FIXTURE_VARIANCE_REPORT.md.
+- Explored modern/local 2v2 replay variance through ignored local_data inputs and reports.
+- Confirmed that local_data/ remains ignored and must not be committed.
+
+### Team identity correction
+
+- Corrected the exploratory variance probe to derive team counts from get_replay_frames_data()["meta"]["team_zero"] and ["team_one"].
+- Kept team_zero and team_one as list-shaped parser metadata, with safe fallback when missing.
+- Added player-name display to generated local summaries when available, without committing those local reports.
+
+### Current evidence
+
+- get_replay_frames_data top-level shape has been stable in inspected samples.
+- metadata_frames, ball_data.frames, and player frame arrays aligned in tested samples.
+- meta.team_zero and meta.team_one are important team/player identity anchors.
+- PlayerFrame.Data.team is unreliable/null in current tested modern replays.
+- PlayerFrame.Data.is_team_0 is more useful for team-side information.
+- touch_events.player and boost_pad_events.player can be null.
+- BallFrame and PlayerFrame can use Data and Empty variants.
+
+### Boundaries preserved
+
+- No FOFO data contracts were created.
+- No parser adapters or resolver classes were created.
+- No analysis logic, viewer logic, or machine-learning logic was created.
+- external/subtr-actor was not modified.
+- Local replay files, local summaries, generated dumps, secrets, and tokens remain out of Git.

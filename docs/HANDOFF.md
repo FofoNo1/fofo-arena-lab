@@ -1,4 +1,4 @@
-﻿# Handoff
+# Handoff
 
 This file is the compact handoff for continuing FOFO Arena Lab in a new chat or with another agent.
 
@@ -20,9 +20,9 @@ The project should not judge isolated statistics. It should evaluate gameplay de
 
 Parser-output exploration phase.
 
-The repository contains the initial README, German/English project definitions, agent instructions, handoff files, subtr-actor exploration docs, and first parser probe results.
+The repository has moved past the first parser probe, but it is still intentionally before stable FOFO data contracts, parser adapters, resolver classes, analysis modules, viewer integration, or machine-learning work.
 
-The project intentionally avoids fixed data structures, classes, or modules until real parser output has been inspected.
+The project intentionally avoids fixed data structures, classes, modules, and long-term architecture until real parser output and replay variance have been inspected.
 
 ## Current guiding principle
 
@@ -40,35 +40,41 @@ Visualize and expand afterwards.
 ## Current technical state
 
 - Branch: codex/parser-output-exploration
-- external/subtr-actor is added as a Git submodule.
-- Submodule version observed: v0.12.0
+- external/subtr-actor is added as a Git submodule and must stay read-only.
+- Submodule version observed: v0.12.0.
 - Local .venv with Python 3.13 works.
 - subtr-actor-py was installed from external/subtr-actor/python.
 - subtr_actor imports successfully.
-- First parser probe against the built-in ranked doubles fixture succeeded.
+- The built-in ranked-doubles fixture was parsed successfully.
+- Repeatable parser probes exist under scripts/probes/.
+- local_data/ is ignored and contains local replay inputs and generated local summaries only.
 
-## Important probe result
+## Completed parser exploration
 
-Fixture:
+Completed work now includes:
 
-external/subtr-actor/assets/recent-ranked-doubles-2026-03-10.replay
+- first parser probe against the built-in ranked-doubles fixture
+- source/schema mapping of subtr-actor outputs
+- output field reference for observed parser structures
+- fixture variance exploration across subtr-actor replay fixtures
+- modern/local 2v2 replay variance exploration using ignored local_data inputs
+- corrected variance probe team counting from get_replay_frames_data()["meta"]["team_zero"] and ["team_one"]
 
-Observed output summary:
+## Key evidence so far
 
-- get_replay_meta returned column_headers and replay_meta.
-- parse_replay returned low-level replay keys.
-- get_replay_frames_data returned structured replay data.
+- get_replay_frames_data top-level keys have been stable in inspected samples.
 - frame_data contains ball_data, metadata_frames, and players.
-- metadata_frames: 9530
-- players: 4
-- touch_events: 113
-- goal_events: 5
-- demolish_infos: 2
-- boost_pads: 34
-- boost_pad_events: 1581
-- get_stats_module_names returned 45 stat module names.
+- metadata_frames, ball_data.frames, and player frame arrays aligned in tested samples.
+- Replay meta team arrays, meta.team_zero and meta.team_one, are important player/team identity anchors.
+- PlayerFrame.Data.team is unreliable/null in current tested modern replays.
+- PlayerFrame.Data.is_team_0 is more useful for frame-level team-side information.
+- touch_events.player and boost_pad_events.player can be null.
+- goal_events.player can be null in some fixture variance.
+- BallFrame and PlayerFrame can appear as Data or Empty variants.
+- Rigid-body velocity fields can be null.
+- Event streams can be empty and should not be treated as missing parser output.
 
-## Current setup files
+## Current project files to read
 
 - README.md
 - AGENTS.md
@@ -77,13 +83,19 @@ Observed output summary:
 - docs/TASK_LOG.md
 - docs/SUBTR_ACTOR_EXPLORATION.md
 - docs/SUBTR_ACTOR_FIRST_PROBE_PLAN.md
-- docs/SUBTR_ACTOR_OUTPUT_SCHEMA_MAP.md
 - docs/SUBTR_ACTOR_FIRST_PROBE_RESULT.md
+- docs/SUBTR_ACTOR_OUTPUT_SCHEMA_MAP.md
+- docs/SUBTR_ACTOR_OUTPUT_FIELD_REFERENCE.md
+- docs/SUBTR_ACTOR_FIXTURE_VARIANCE_REPORT.md
+- scripts/probes/inspect_subtr_output.py
+- scripts/probes/inspect_modern_replay_variance.py
+- scripts/probes/ballchasing_download_recent_2v2_replays.py
 
 ## Important constraints
 
 - Do not overdesign upfront.
-- Do not invent fixed data models before parser output is known.
+- Do not invent fixed data models before parser output is understood.
+- Do not create FOFO contracts, adapters, resolver classes, analysis logic, viewer logic, or ML logic yet.
 - Do not commit private replay files or heavy generated parser outputs.
 - Do not commit secrets, tokens, company data, or personal data.
 - Do not modify external/subtr-actor.
@@ -91,20 +103,14 @@ Observed output summary:
 
 ## Next recommended step
 
-Create a temporary local probe script:
+Create a narrow follow-up document for "FOFO Normalized Replay V0 questions".
 
-scripts/probes/inspect_subtr_output.py
+This should be a questions document only, not a schema. It should list unresolved modeling questions revealed by the variance pass, including active-player selection, team identity reconciliation, optional attribution, frame variants, frame/event alignment, and nullable velocity/boost/event fields.
 
-Purpose:
-
-- inspect nested field structures
-- print keys, counts, value types, and small samples
-- avoid full dumps
-- keep it exploratory
-- do not define FOFO data contracts yet
+After those questions are explicit, FOFO can later draft a minimal Normalized Replay V0 document with clear "observed parser source" notes and no analysis logic.
 
 ## How to continue in a new chat
 
 Tell the assistant:
 
-We are working on FOFO Arena Lab. Please use the GitHub repository FofoNo1/fofo-arena-lab and follow README.md, AGENTS.md, docs/HANDOFF.md, and docs/NEXT_STEPS.md. Continue from the parser-output exploration phase and do not overdesign before parser output has been fully inspected.
+We are working on FOFO Arena Lab. Follow README.md, AGENTS.md, docs/HANDOFF.md, docs/NEXT_STEPS.md, and docs/TASK_LOG.md. Continue from the parser-output exploration phase. Do not overdesign before parser output and replay variance are understood. The next step is to document unresolved FOFO Normalized Replay V0 questions only, not to create a schema or implementation.
