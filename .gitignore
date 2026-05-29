@@ -25,6 +25,7 @@ __pycache__/
 *.pem
 
 # Local replay data
+local_data/
 *.replay
 samples/replays/*
 samples/parsed/*
