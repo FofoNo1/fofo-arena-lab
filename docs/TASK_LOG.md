@@ -104,3 +104,11 @@ Observed output included:
 - No analysis logic, viewer logic, or machine-learning logic was created.
 - external/subtr-actor was not modified.
 - Local replay files, local summaries, generated dumps, secrets, and tokens remain out of Git.
+
+## 2026-05-30
+
+### Issue #3: Normalized Replay V0 source boundary
+
+- Added `docs/FOFO_NORMALIZED_REPLAY_V0_SOURCE_BOUNDARY.md` as a short decision note.
+- Decided `get_replay_frames_data` is the initial primary V0 parser source boundary, with `get_replay_meta` as supporting evidence and `parse_replay` as audit/debug evidence only.
+- Kept ndarray outputs, stats timelines, JS viewer models, heuristic analysis outputs, schemas, adapters, resolvers, parser logic, viewer logic, ML logic, replay files, generated dumps, `local_data/`, and `external/subtr-actor` out of scope.
