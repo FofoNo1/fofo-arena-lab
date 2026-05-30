@@ -39,7 +39,8 @@ Visualize and expand afterwards.
 
 ## Current technical state
 
-- Branch: codex/parser-output-exploration
+- Current clean base after merge: main
+- Current work topic: Normalized Replay V0 source boundary decision
 - external/subtr-actor is added as a Git submodule and must stay read-only.
 - Submodule version observed: v0.12.0.
 - Local .venv with Python 3.13 works.
@@ -59,6 +60,8 @@ Completed work now includes:
 - fixture variance exploration across subtr-actor replay fixtures
 - modern/local 2v2 replay variance exploration using ignored local_data inputs
 - corrected variance probe team counting from get_replay_frames_data()["meta"]["team_zero"] and ["team_one"]
+- `docs/FOFO_NORMALIZED_REPLAY_V0_QUESTIONS.md`, a questions-only document for unresolved V0 modeling decisions
+- Issue #3 source-boundary decision in `docs/FOFO_NORMALIZED_REPLAY_V0_SOURCE_BOUNDARY.md`
 
 ## Key evidence so far
 
@@ -87,6 +90,8 @@ Completed work now includes:
 - docs/SUBTR_ACTOR_OUTPUT_SCHEMA_MAP.md
 - docs/SUBTR_ACTOR_OUTPUT_FIELD_REFERENCE.md
 - docs/SUBTR_ACTOR_FIXTURE_VARIANCE_REPORT.md
+- docs/FOFO_NORMALIZED_REPLAY_V0_QUESTIONS.md
+- docs/FOFO_NORMALIZED_REPLAY_V0_SOURCE_BOUNDARY.md
 - scripts/probes/inspect_subtr_output.py
 - scripts/probes/inspect_modern_replay_variance.py
 - scripts/probes/ballchasing_download_recent_2v2_replays.py
@@ -103,14 +108,16 @@ Completed work now includes:
 
 ## Next recommended step
 
-Create a narrow follow-up document for "FOFO Normalized Replay V0 questions".
+Draft a minimal `docs/FOFO_NORMALIZED_REPLAY_V0.md` documentation proposal from
+the completed V0 questions document and the Issue #3 source-boundary decision.
 
-This should be a questions document only, not a schema. It should list unresolved modeling questions revealed by the variance pass, including active-player selection, team identity reconciliation, optional attribution, frame variants, frame/event alignment, and nullable velocity/boost/event fields.
-
-After those questions are explicit, FOFO can later draft a minimal Normalized Replay V0 document with clear "observed parser source" notes and no analysis logic.
+The draft should use `get_replay_frames_data` as the primary initial parser
+source boundary, `get_replay_meta` as supporting evidence, and keep
+`parse_replay`, ndarray outputs, stats timelines, JS viewer models, and
+heuristic analysis outputs outside the normal initial V0 boundary.
 
 ## How to continue in a new chat
 
 Tell the assistant:
 
-We are working on FOFO Arena Lab. Follow README.md, AGENTS.md, docs/HANDOFF.md, docs/NEXT_STEPS.md, and docs/TASK_LOG.md. Continue from the parser-output exploration phase. Do not overdesign before parser output and replay variance are understood. The next step is to document unresolved FOFO Normalized Replay V0 questions only, not to create a schema or implementation.
+We are working on FOFO Arena Lab. Follow README.md, AGENTS.md, docs/HANDOFF.md, docs/NEXT_STEPS.md, and docs/TASK_LOG.md. Continue from the parser-output exploration phase. Do not overdesign before parser output and replay variance are understood. The V0 questions document and Issue #3 source-boundary decision now exist; next, draft a minimal Normalized Replay V0 documentation proposal without creating schemas, adapters, resolvers, analysis logic, viewer logic, or ML logic.

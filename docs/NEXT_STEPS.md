@@ -22,31 +22,28 @@ The first parser-output milestone is complete and has expanded into variance exp
 
 ## Immediate next step
 
-Create a narrow document for "FOFO Normalized Replay V0 questions".
+Draft a minimal "FOFO Normalized Replay V0" documentation proposal from the
+completed questions document and the Issue #3 source-boundary decision.
 
-This must be a questions document only. It must not define a FOFO-owned schema, class model, adapter API, resolver API, analysis module, or stable data contract.
+This must remain documentation-first. It must cite parser source areas, preserve
+raw/nullable/variant parser evidence, and avoid turning observed fields into a
+stable FOFO data contract too early.
 
-The document should capture unresolved modeling questions revealed by parser variance:
+Use these existing documents as the immediate inputs:
 
-- active-player selection versus parser player tracks
-- team identity reconciliation between meta.team_zero/team_one, player track ids, PlayerFrame.Data.is_team_0, and event team fields
-- optional event attribution when player fields are null
-- BallFrame and PlayerFrame Data/Empty variant handling
-- frame/event alignment and how events should reference frame indices and time
-- nullable rigid-body velocity fields
-- boost amount units and boost pad event attribution
-- empty event streams as valid parser output
-- replay-version and playlist variance
+- `docs/FOFO_NORMALIZED_REPLAY_V0_QUESTIONS.md`
+- `docs/FOFO_NORMALIZED_REPLAY_V0_SOURCE_BOUNDARY.md`
 
 ## Suggested next file
 
-docs/FOFO_NORMALIZED_REPLAY_V0_QUESTIONS.md
+docs/FOFO_NORMALIZED_REPLAY_V0.md
 
 ## Suggested next branch
 
-Continue on:
+Create a new branch for the V0 draft after the source-boundary decision is
+merged:
 
-codex/parser-output-exploration
+codex/normalized-replay-v0-draft
 
 ## Do not do yet
 
@@ -65,6 +62,8 @@ codex/parser-output-exploration
 
 ## Next likely agent task
 
-Ask Codex to create docs/FOFO_NORMALIZED_REPLAY_V0_QUESTIONS.md as a concise unresolved-questions document.
+Ask Codex to draft `docs/FOFO_NORMALIZED_REPLAY_V0.md` as a minimal
+documentation proposal.
 
-The task should document questions only and must not define FOFO-owned stable field names, schemas, adapters, resolver classes, analysis logic, viewer logic, or ML logic.
+The task must not define a final schema, parser adapter, resolver API, analysis
+logic, viewer logic, ML logic, or stable FOFO data contract.
