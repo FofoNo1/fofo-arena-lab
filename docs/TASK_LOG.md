@@ -112,3 +112,11 @@ Observed output included:
 - Added `docs/FOFO_NORMALIZED_REPLAY_V0_SOURCE_BOUNDARY.md` as a short decision note.
 - Decided `get_replay_frames_data` is the initial primary V0 parser source boundary, with `get_replay_meta` as supporting evidence and `parse_replay` as audit/debug evidence only.
 - Kept ndarray outputs, stats timelines, JS viewer models, heuristic analysis outputs, schemas, adapters, resolvers, parser logic, viewer logic, ML logic, replay files, generated dumps, `local_data/`, and `external/subtr-actor` out of scope.
+
+## 2026-05-31
+
+### Issue #5: Minimal V0 parser evidence summary
+
+- Added `scripts/probes/summarize_v0_parser_evidence.py` as a bounded stdout-only parser evidence probe.
+- Added `docs/FOFO_NORMALIZED_REPLAY_V0_PARSER_EVIDENCE_SUMMARY.md` with parser-visible frame, team, event, null, variant, and alignment evidence from public ranked-doubles fixtures.
+- Kept FOFO schemas, stable data contracts, parser adapters, resolvers, inferred attribution, analysis logic, viewer logic, ML logic, dependency changes, replay files, generated dumps, `local_data/`, and `external/subtr-actor` out of scope.

@@ -62,6 +62,8 @@ Completed work now includes:
 - corrected variance probe team counting from get_replay_frames_data()["meta"]["team_zero"] and ["team_one"]
 - `docs/FOFO_NORMALIZED_REPLAY_V0_QUESTIONS.md`, a questions-only document for unresolved V0 modeling decisions
 - Issue #3 source-boundary decision in `docs/FOFO_NORMALIZED_REPLAY_V0_SOURCE_BOUNDARY.md`
+- Issue #5 parser evidence summary in `docs/FOFO_NORMALIZED_REPLAY_V0_PARSER_EVIDENCE_SUMMARY.md`
+- bounded V0 parser evidence probe in `scripts/probes/summarize_v0_parser_evidence.py`
 
 ## Key evidence so far
 
@@ -92,8 +94,10 @@ Completed work now includes:
 - docs/SUBTR_ACTOR_FIXTURE_VARIANCE_REPORT.md
 - docs/FOFO_NORMALIZED_REPLAY_V0_QUESTIONS.md
 - docs/FOFO_NORMALIZED_REPLAY_V0_SOURCE_BOUNDARY.md
+- docs/FOFO_NORMALIZED_REPLAY_V0_PARSER_EVIDENCE_SUMMARY.md
 - scripts/probes/inspect_subtr_output.py
 - scripts/probes/inspect_modern_replay_variance.py
+- scripts/probes/summarize_v0_parser_evidence.py
 - scripts/probes/ballchasing_download_recent_2v2_replays.py
 
 ## Important constraints
@@ -109,7 +113,8 @@ Completed work now includes:
 ## Next recommended step
 
 Draft a minimal `docs/FOFO_NORMALIZED_REPLAY_V0.md` documentation proposal from
-the completed V0 questions document and the Issue #3 source-boundary decision.
+the completed V0 questions document, the Issue #3 source-boundary decision, and
+the Issue #5 parser evidence summary.
 
 The draft should use `get_replay_frames_data` as the primary initial parser
 source boundary, `get_replay_meta` as supporting evidence, and keep
