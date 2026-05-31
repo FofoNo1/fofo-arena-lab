@@ -33,6 +33,7 @@ Use these existing documents as the immediate inputs:
 
 - `docs/FOFO_NORMALIZED_REPLAY_V0_QUESTIONS.md`
 - `docs/FOFO_NORMALIZED_REPLAY_V0_SOURCE_BOUNDARY.md`
+- `docs/FOFO_NORMALIZED_REPLAY_V0_PARSER_EVIDENCE_SUMMARY.md`
 
 ## Suggested next file
 
